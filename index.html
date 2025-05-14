@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deprescribing Compass - Pharmacist Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to right, #c2e9fb, #a1c4fd);
+      color: #333;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #1e3a8a;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .form-section {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 15px;
+    }
+    textarea, input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #1e3a8a;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #3b82f6;
+    }
+    #output {
+      white-space: pre-wrap;
+      background-color: #f0fdf4;
+      border-left: 5px solid #22c55e;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+  </style>
+  <script>
+    function checkDeprescribing() {
+      const goals = document.getElementById("goals").value;
+      const prognosis = document.getElementById("prognosis").value;
+      const medications = document.getElementById("medications").value.toLowerCase().split(",").map(med => med.trim());
+      const age = parseInt(document.getElementById("age").value);
+      const weight = parseFloat(document.getElementById("weight").value);
+      const conditions = document.getElementById("conditions").value.toLowerCase();
+
+      let recommendations = `✨ Deprescribing Recommendations based on Goals of Care: ${goals}, Prognosis: ${prognosis}, Age: ${age}, Weight: ${weight}kg\n\n`;
+
+      const classData = {
+        "benzodiazepine": {
+          recommendation: "May be deprescribed due to risks of falls, cognitive impairment, and sedation. Gradual taper advised.",
+          severity: "High",
+          reference: "AMH, Maudsley",
+          link: "https://www.nps.org.au/news/benzodiazepines-the-risks-and-alternatives"
+        },
+        "ssri": {
+          recommendation: "May be tapered and ceased if no longer beneficial, especially in palliative settings.",
+          severity: "Moderate",
+          reference: "Maudsley Prescribing Guidelines",
+          link: "https://www.nps.org.au/radar/articles/ssris-in-the-elderly"
+        }
+      };
+
+      const classKeywords = {
+        "benzodiazepine": ["diazepam", "temazepam", "oxazepam", "lorazepam"],
+        "ssri": ["sertraline", "fluoxetine", "escitalopram", "citalopram"]
+      };
+
+      let burdenScore = 0;
+      medications.forEach(med => {
+        Object.entries(classKeywords).forEach(([drugClass, names]) => {
+          if (names.some(name => med.includes(name))) {
+            const entry = classData[drugClass];
+            recommendations += `• ⚖️ ${drugClass.toUpperCase()}: ${entry.recommendation}\nSeverity: ${entry.severity}\nReference: ${entry.reference}\nLink: ${entry.link}\n\n`;
+            if (entry.severity === "High") burdenScore += 2;
+            else if (entry.severity === "Moderate") burdenScore += 1;
+          }
+        });
+      });
+
+      recommendations += `🧮 Sedative Medication Burden Score: ${burdenScore} (Higher = greater risk of cognitive/motor impairment)\n`;
+
+      if (burdenScore === 0) {
+        recommendations += "No high-risk sedating medications detected.\n";
+      }
+
+      document.getElementById("output").textContent = recommendations;
+    }
+
+    function downloadSummary() {
+      const content = document.getElementById("output").textContent;
+      const blob = new Blob([content], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = "deprescribing_summary.txt";
+      link.click();
+    }
+  </script>
+</head>
+<body>
+  <h1>Deprescribing Compass - Pharmacist Tool</h1>
+
+  <div class="form-section">
+    <label for="age">Patient Age:</label>
+    <input type="number" id="age" />
+
+    <label for="weight">Patient Weight (kg):</label>
+    <input type="number" id="weight" />
+
+    <label for="conditions">Chronic Conditions (comma separated):</label>
+    <textarea id="conditions" rows="2" placeholder="e.g., dementia, heart failure, diabetes"></textarea>
+
+    <label for="goals">Goals of Care:</label>
+    <select id="goals">
+      <option value="Symptom control">Symptom control</option>
+      <option value="Life extension">Life extension</option>
+      <option value="Functional improvement">Functional improvement</option>
+    </select>
+
+    <label for="prognosis">Prognosis (Life Expectancy):</label>
+    <select id="prognosis">
+      <option value="Limited (<1 year)">Limited (&lt;1 year)</option>
+      <option value="Moderate (1-5 years)">Moderate (1-5 years)</option>
+      <option value="Good (>5 years)">Good (&gt;5 years)</option>
+    </select>
+
+    <label for="medications">Enter Medications (comma separated):</label>
+    <textarea id="medications" rows="3" placeholder="e.g., diazepam, sertraline"></textarea>
+
+    <button onclick="checkDeprescribing()">Check Deprescribing</button>
+    <button onclick="downloadSummary()">Download Summary</button>
+  </div>
+
+  <div id="output"></div>
+</body>
+</html>
