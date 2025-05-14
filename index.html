@@ -46,6 +46,7 @@
       font-weight: bold;
       cursor: pointer;
       transition: background 0.3s ease;
+      margin-top: 10px;
     }
     button:hover {
       background-color: #3b82f6;
@@ -69,26 +70,47 @@
       const weight = parseFloat(document.getElementById("weight").value);
       const conditions = document.getElementById("conditions").value.toLowerCase();
 
-      let recommendations = `✨ Deprescribing Recommendations based on Goals of Care: ${goals}, Prognosis: ${prognosis}, Age: ${age}, Weight: ${weight}kg\n\n`;
+      let recommendations = `✨ Deprescribing Recommendations based on:\n- Goals of Care: ${goals}\n- Prognosis: ${prognosis}\n- Age: ${age}\n- Weight: ${weight}kg\n\n`;
 
       const classData = {
         "benzodiazepine": {
-          recommendation: "May be deprescribed due to risks of falls, cognitive impairment, and sedation. Gradual taper advised.",
+          recommendation: "May be deprescribed due to risks of falls, cognitive impairment, and sedation.",
           severity: "High",
           reference: "AMH, Maudsley",
           link: "https://www.nps.org.au/news/benzodiazepines-the-risks-and-alternatives"
         },
         "ssri": {
-          recommendation: "May be tapered and ceased if no longer beneficial, especially in palliative settings.",
+          recommendation: "Consider tapering if not providing clear benefit, especially in palliative settings.",
           severity: "Moderate",
           reference: "Maudsley Prescribing Guidelines",
           link: "https://www.nps.org.au/radar/articles/ssris-in-the-elderly"
+        },
+        "ppi": {
+          recommendation: "Taper if no ongoing indication like reflux or ulcer prevention in NSAID users.",
+          severity: "Low",
+          reference: "Therapeutic Guidelines Gastrointestinal",
+          link: "https://www.nps.org.au/news/proton-pump-inhibitors-time-to-review"
+        },
+        "antipsychotic": {
+          recommendation: "Review in dementia and behavioral issues; consider tapering if risks outweigh benefits.",
+          severity: "High",
+          reference: "Therapeutic Guidelines Psychotropic",
+          link: "https://www.nps.org.au/news/antipsychotics-in-dementia"
+        },
+        "opioid": {
+          recommendation: "Taper if not required for acute pain or if function/quality of life not improved.",
+          severity: "High",
+          reference: "Australian Guidelines for Opioid Deprescribing",
+          link: "https://www.nps.org.au/news/deprescribing-opioids-in-chronic-pain"
         }
       };
 
       const classKeywords = {
         "benzodiazepine": ["diazepam", "temazepam", "oxazepam", "lorazepam"],
-        "ssri": ["sertraline", "fluoxetine", "escitalopram", "citalopram"]
+        "ssri": ["sertraline", "fluoxetine", "escitalopram", "citalopram"],
+        "ppi": ["omeprazole", "esomeprazole", "pantoprazole", "lansoprazole"],
+        "antipsychotic": ["risperidone", "olanzapine", "quetiapine", "haloperidol"],
+        "opioid": ["codeine", "tramadol", "oxycodone", "morphine"]
       };
 
       let burdenScore = 0;
@@ -96,15 +118,32 @@
         Object.entries(classKeywords).forEach(([drugClass, names]) => {
           if (names.some(name => med.includes(name))) {
             const entry = classData[drugClass];
-            recommendations += `• ⚖️ ${drugClass.toUpperCase()}: ${entry.recommendation}\nSeverity: ${entry.severity}\nReference: ${entry.reference}\nLink: ${entry.link}\n\n`;
+            let rationale = "";
+
+            if (goals === "Symptom control") {
+              rationale = "In symptom control, minimizing adverse effects is key.";
+            } else if (goals === "Life extension") {
+              rationale = "For life extension, consider risks that may increase mortality.";
+            } else if (goals === "Functional improvement") {
+              rationale = "Prioritize cognitive and physical function preservation.";
+            }
+
+            if (prognosis === "Limited (<1 year)") {
+              rationale += " Preventive or long-latency benefit medications often deprescribed.";
+            } else if (prognosis === "Good (>5 years)") {
+              rationale += " Long-term benefit medications may be continued if tolerated.";
+            }
+
+            recommendations += `• ⚖️ ${drugClass.toUpperCase()}: ${entry.recommendation}\nSeverity: ${entry.severity}\n${rationale}\nReference: ${entry.reference}\nLink: ${entry.link}\n\n`;
+
             if (entry.severity === "High") burdenScore += 2;
             else if (entry.severity === "Moderate") burdenScore += 1;
+            else if (entry.severity === "Low") burdenScore += 0.5;
           }
         });
       });
 
       recommendations += `🧮 Sedative Medication Burden Score: ${burdenScore} (Higher = greater risk of cognitive/motor impairment)\n`;
-
       if (burdenScore === 0) {
         recommendations += "No high-risk sedating medications detected.\n";
       }
