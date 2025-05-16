@@ -102,6 +102,54 @@
           severity: "High",
           reference: "Australian Guidelines for Opioid Deprescribing",
           link: "https://www.nps.org.au/news/deprescribing-opioids-in-chronic-pain"
+        },
+         "statin": {
+          recommendation: "Statins like atorvastatin or simvastatin may be deprescribed in patients with limited life expectancy (<1 year) where primary prevention is no longer beneficial.",
+          severity: "Moderate - While statins help in reducing cardiovascular risk, in end-of-life scenarios, the burden may outweigh the benefit. Continuing statins could be decreasing comfort and increasing medication burden for patients with a poor prognosis.",
+          reference: "eTG, AMH",
+          link: "https://www.etg.org.au/"
+        },
+        "acetylcholinesterase inhibitor": {
+          recommendation: "Drugs like donepezil or rivastigmine may be deprescribed in end-stage dementia when no functional improvement is expected. Gradual taper is advised.",
+          severity: "High - These medications may be contributing to adverse effects without meaningful benefit, impacting QOL. Discontinuing these drugs can enhance comfort by reducing confusion, sedation, and other side effects.",
+          reference: "MATCH-D, AMH",
+          link: "https://www.amh.net.au/"
+        },
+        "antiplatelet": {
+          recommendation: "Agents like aspirin or clopidogrel used for primary prevention may be deprescribed if bleeding risk outweighs benefit.",
+          severity: "High - Reduces bleeding risks and may be burdensome if continued in patients with limited prognosis. The continued use of antiplatelets can contribute to a higher bleeding risk, which may significantly impact patient comfort.",
+          reference: "eTG, AMH",
+          link: "https://www.etg.org.au/"
+        },
+        "biguanide": {
+          recommendation: "Metformin should be reviewed in frail elderly patients, especially if eGFR <30 mL/min or low HbA1c targets.",
+          severity: "Moderate - May contribute to lactic acidosis in frail patients with kidney dysfunction, decreasing overall safety. In palliative care, these medications should be reconsidered as they may pose risks without significant benefits.",
+          reference: "eTG",
+          link: "https://www.etg.org.au/"
+          },
+        "ccb": {
+          recommendation: "Calcium channel blockers like amlodipine may contribute to hypotension or falls in frail patients. Review BP targets.",
+          severity: "High - Contributes to hypotension or falls in frail patients, decreasing functional ability and safety. Deprescribing these agents may prevent adverse effects such as falls and dizziness, enhancing overall patient comfort.",
+          reference: "eTG",
+          link: "https://www.etg.org.au/"
+        },
+        "insulin": {
+          recommendation: "Insulin may be deprescribed or reduced in elderly/frail if HbA1c target is relaxed or risk of hypoglycaemia is high.",
+          severity: "Moderate - Reducing insulin or adjusting doses in elderly patients may reduce risks of hypoglycemia and improve QOL. In palliative care, reducing insulin can help prevent unnecessary complications, improving comfort.",
+          reference: "eTG, AMH",
+          link: "https://www.etg.org.au/"
+        },
+        "anticoagulant": {
+          recommendation: "Agents like warfarin or DOACs may be deprescribed in limited prognosis unless essential (e.g. mechanical valves).",
+          severity: "High - May significantly impact QOL due to bleeding risks, especially in patients with limited life expectancy. Deprescribing these agents can reduce the risk of bleeding complications, improving safety and comfort.",
+          reference: "AMH",
+          link: "https://www.amh.net.au/"
+        },
+        "bisphosphonate": {
+          recommendation: "Bisphosphonates like alendronate may be stopped after 5 years or in patients near end of life with low fracture risk.",
+          severity: "Low - May be unnecessary in patients near the end of life, without contributing significantly to QOL. Discontinuing bisphosphonates may reduce medication burden without compromising comfort.",
+          reference: "AMH",
+          link: "https://www.amh.net.au/"
         }
       };
 
@@ -110,7 +158,15 @@
         "ssri": ["sertraline", "fluoxetine", "escitalopram", "citalopram"],
         "ppi": ["omeprazole", "esomeprazole", "pantoprazole", "lansoprazole"],
         "antipsychotic": ["risperidone", "olanzapine", "quetiapine", "haloperidol"],
-        "opioid": ["codeine", "tramadol", "oxycodone", "morphine"]
+        "opioid": ["codeine", "tramadol", "oxycodone", "morphine"],
+        "statin": ["atorvastatin", "simvastatin", "rosuvastatin", "pravastatin"],
+        "acetylcholinesterase inhibitor": ["donepezil", "rivastigmine", "galantamine"],
+        "antiplatelet": ["aspirin", "clopidogrel", "dipyridamole"],
+        "biguanide": ["metformin"],
+        "ccb": ["amlodipine", "felodipine", "nifedipine"],
+        "insulin": ["insulin glargine", "insulin aspart", "insulin detemir"],
+        "anticoagulant": ["warfarin", "apixaban", "rivaroxaban", "dabigatran"],
+        "bisphosphonate": ["alendronate", "risedronate", "zoledronic acid"]
       };
 
       let burdenScore = 0;
