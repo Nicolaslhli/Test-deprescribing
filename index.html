@@ -63,12 +63,12 @@
   </style>
   <script>
     function checkDeprescribing() {
-      const goals = document.getElementById("goals").value;
-      const prognosis = document.getElementById("prognosis").value;
-      const medications = document.getElementById("medications").value.toLowerCase().split(",").map(med => med.trim());
-      const age = parseInt(document.getElementById("age").value);
-      const weight = parseFloat(document.getElementById("weight").value);
-      const conditions = document.getElementById("conditions").value.toLowerCase();
+      const age = document.getElementById('age').value;
+      const weight = document.getElementById('weight').value;
+      const conditions = document.getElementById('conditions').value.split(',').map(s => s.trim().toLowerCase());
+      const goals = document.getElementById('goals').value;
+      const prognosis = document.getElementById('prognosis').value;
+      const medications = document.getElementById('medications').value.split(',').map(s => s.trim().toLowerCase());
 
       let recommendations = `✨ Deprescribing Recommendations based on:\n- Goals of Care: ${goals}\n- Prognosis: ${prognosis}\n- Age: ${age}\n- Weight: ${weight}kg\n\n`;
 
