@@ -153,21 +153,22 @@
         }
       };
 
+
       const classKeywords = {
-        "benzodiazepine": ["diazepam", "temazepam", "oxazepam", "lorazepam"],
-        "ssri": ["sertraline", "fluoxetine", "escitalopram", "citalopram"],
-        "ppi": ["omeprazole", "esomeprazole", "pantoprazole", "lansoprazole"],
-        "antipsychotic": ["risperidone", "olanzapine", "quetiapine", "haloperidol"],
-        "opioid": ["codeine", "tramadol", "oxycodone", "morphine"],
-        "statin": ["atorvastatin", "simvastatin", "rosuvastatin", "pravastatin"],
-        "acetylcholinesterase inhibitor": ["donepezil", "rivastigmine", "galantamine"],
-        "antiplatelet": ["aspirin", "clopidogrel", "dipyridamole"],
-        "biguanide": ["metformin"],
-        "ccb": ["amlodipine", "felodipine", "nifedipine"],
-        "insulin": ["insulin glargine", "insulin aspart", "insulin detemir"],
-        "anticoagulant": ["warfarin", "apixaban", "rivaroxaban", "dabigatran"],
-        "bisphosphonate": ["alendronate", "risedronate", "zoledronic acid"]
-      };
+          "benzodiazepine": ["diazepam", "temazepam", "oxazepam", "lorazepam", "valium", "temaze", "serepax", "ativan"],
+          "ssri": ["sertraline", "fluoxetine", "escitalopram", "citalopram","zoloft", "prozac", "lexapro", "cipramil"],
+          "ppi": ["omeprazole", "esomeprazole", "pantoprazole", "lansoprazole","losec", "nexium", "somac", "zolacid"],
+          "antipsychotic": ["risperidone", "olanzapine", "quetiapine", "haloperidol","risperdal", "zyprexa", "seroquel", "serenace"],
+          "opioid": ["codeine", "tramadol", "oxycodone", "morphine","panadeine", "tramal", "endone", "ms contin"],
+          "statin": ["atorvastatin", "simvastatin", "rosuvastatin", "pravastatin","lipitor", "zocor", "crestor", "pravachol"],
+          "acetylcholinesterase inhibitor": ["donepezil", "rivastigmine", "galantamine","aricept", "exelon", "reminyl"],
+          "antiplatelet": ["aspirin", "clopidogrel", "dipyridamole","cartia", "plavix", "persantin"],
+          "biguanide": ["metformin","diaformin", "glucophage", "diabex],
+          "ccb": ["amlodipine", "felodipine", "nifedipine","norvasc", "plendil", "adalat"],
+          "insulin": ["insulin glargine", "insulin aspart", "insulin detemir","lantus", "novorapid", "levemir"],
+          "anticoagulant": ["warfarin", "apixaban", "rivaroxaban", "dabigatran","coumadin", "eliquis", "xarelto", "pradaxa"],
+          "bisphosphonate": ["alendronate", "risedronate", "zoledronic acid","fosamax", "actonel", "aclasta"]
+        };
 
       let burdenScore = 0;
       medications.forEach(med => {
